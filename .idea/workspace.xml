@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c905d27d-c708-4693-a41f-6a7ad4ed57e6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/srv/websrv/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/srv/websrv/msgproto/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/srv/websrv/msgproto/msg.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-    </list>
+    <list default="true" id="c905d27d-c708-4693-a41f-6a7ad4ed57e6" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
