@@ -548,6 +548,8 @@ github.com/micro/go-rcache v0.2.0/go.mod h1:EoiTwbY2ubQ6lc3ScV+SnmKbelDzeFezDxPD
 github.com/micro/go-rcache v0.2.1/go.mod h1:aPCNY3RbjBdyd6ShLENl4MDSgpAiWIU4LyNLE9+TOEo=
 github.com/micro/go-rcache v0.3.0 h1:KmJI80XnLNOB11U+hahQMMHBZLnZjf/oA4DB6FdEbSU=
 github.com/micro/go-rcache v0.3.0/go.mod h1:M5zEP6UW8YfsaHHyFdcgTzgIshTPNqMKw38Mwc+ht4g=
+github.com/micro/go-web v1.0.0 h1:gIiRVVuVWTZIKDlJxhoDr6/uRxegQmKRTsVTILaN/cc=
+github.com/micro/go-web v1.0.0/go.mod h1:d7+RTjvq5mvsIq55hq1/84kbYBbvJKrcUcBxBbQR5Nc=
 github.com/micro/h2c v1.0.0/go.mod h1:54sOOQW/GRlHhH43vKwOhUb+kHaXhVxR0d3CJhn9alE=
 github.com/micro/mdns v0.0.0-20181201230301-9c3770d4057a/go.mod h1:SQG6o/94RinohLuB5noHSevg2Iqg2wXLDUn4lj2LWWo=
 github.com/micro/mdns v0.1.0 h1:fuLybUsfynbigJmCot/54i+gwe0hpc/vtCMvWt2WfDI=
