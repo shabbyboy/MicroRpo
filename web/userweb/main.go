@@ -1,18 +1,23 @@
 package main
 
+/*
+利用goweb 模块弄了一个web服务
+ */
+
 import (
-	"context"
+	"MicroRpo/srv/websrv/msgproto"
 	"fmt"
 	"github.com/micro/go-micro/client"
 	"github.com/micro/go-web"
 	"log"
 	"net/http"
-	"MicroRpo/srv/websrv/msgproto"
+	"context"
 )
 
 func main(){
 	service := web.NewService(
 		web.Name("microrpo.web.user"),
+
 	)
 
 	service.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
@@ -33,7 +38,7 @@ func main(){
 				http.Error(writer,err.Error(),500)
 				return
 			}
-
+			log.Print(request.Host)
 			writer.Write([]byte(`<html><body><h1>` + rsp.Msg + `</h1></body></html>`))
 			return
 		}
