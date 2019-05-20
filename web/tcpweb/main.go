@@ -173,7 +173,8 @@ func (tcp tcpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		//阻塞直到 websocket 关闭
 		<- wsconn.stop
 		wsconn.wsconn.Close()
-		//server.DefaultServer.Stop()
+		//这里手动关下rpc服务把避免开启太多
+		server.DefaultServer.Stop()
 		//log.Fatal("wbsocket 连接关闭")
 	}
 
