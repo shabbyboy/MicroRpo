@@ -6,14 +6,34 @@ package main
 
 import (
 	"MicroRpo/srv/websrv/msgproto"
+	"MicroRpo/web/tcpweb/tcpproto"
 	"context"
 	"fmt"
+	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/client"
+	"github.com/micro/go-micro/server"
 	"github.com/micro/go-web"
 	"log"
 	"net/http"
 )
 
+type pub struct {
+
+
+}
+
+func (p *pub) Process(ctx context.Context,event *pubsub.Event) error{
+
+	//// 通过发布订阅，往长连接发送消息
+	publisher := micro.NewPublisher("123",client.DefaultClient)
+
+	fmt.Println(publisher)
+
+	if err := publisher.Publish(ctx,event); err != nil{
+		fmt.Println("发布：",err)
+	}
+	return nil
+}
 
 
 func main(){
@@ -21,6 +41,9 @@ func main(){
 		web.Name("microrpo.web.user"),
 
 	)
+	//组册订阅，获取长连接的消息
+	micro.RegisterSubscriber("tcp",server.DefaultServer,new(pub))
+	server.DefaultServer.Start()
 
 	service.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		if request.Method == "GET"{
@@ -52,6 +75,8 @@ func main(){
 	if err := service.Init(); err != nil{
 		log.Fatal(err)
 	}
+
+	//service.Options().Service.Run()
 
 	if err := service.Run(); err != nil{
 		log.Fatal(err)
