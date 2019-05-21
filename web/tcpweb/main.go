@@ -1,12 +1,12 @@
 package main
 
 import (
+	"MicroRpo/web/tcpweb/pubsubproj"
 	"MicroRpo/web/tcpweb/tcpproto"
 	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/websocket"
-	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/server"
 	"github.com/micro/go-web"
@@ -97,8 +97,14 @@ func (ws wsConnect) ReadLoop() error{
 				fmt.Println(seqjsonerr)
 			}
 
-			publicsher := micro.NewPublisher(ev.Id,client.DefaultClient)
-			if errpub := publicsher.Publish(context.Background(),ev); errpub != nil{
+			pubproj := pubsubproj.Publish{
+				context.Background(),
+				client.DefaultClient,
+			}
+
+			publicsher := pubproj.NewPublisher(ev.Id)
+
+			if errpub := pubproj.PubEvent(publicsher,ev); errpub != nil{
 				log.Println(errpub)
 			}
 		}
@@ -157,8 +163,16 @@ func (tcp tcpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		wsconn.WriteLoop()
 		tcpHand := &wsSub{inchan:make(chan []byte,2)}
 		//server.Init()
-		errregis := micro.RegisterSubscriber(wsconn.wsId,server.DefaultServer,tcpHand)
-		server.DefaultServer.Start()
+
+		subproj := pubsubproj.Subscribe{
+			server.DefaultServer,
+		}
+		//该用包装后的注册服务
+		errregis := subproj.SubTopic(wsconn.wsId,tcpHand)
+		subproj.Run()
+		///errregis := micro.RegisterSubscriber(wsconn.wsId,server.DefaultServer,tcpHand)
+		//server.DefaultServer.Start()
+
 		if errregis != nil {
 			fmt.Println(errregis)
 		}
