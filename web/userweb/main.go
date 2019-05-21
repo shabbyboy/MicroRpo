@@ -41,7 +41,6 @@ func (p *pub) Process(ctx context.Context,event *pubsub.Event) error{
 func main(){
 	service := web.NewService(
 		web.Name("microrpo.web.user"),
-
 	)
 	//组册订阅，获取长连接的消息
 

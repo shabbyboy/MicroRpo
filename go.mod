@@ -6,6 +6,7 @@ require (
 	github.com/armon/circbuf v0.0.0-20190214190532-5111143e8da2 // indirect
 	github.com/golang/protobuf v1.3.1
 	github.com/mattn/go-colorable v0.1.1 // indirect
+	github.com/micro/go-config v1.1.0 // indirect
 	github.com/micro/go-micro v1.1.0
 	github.com/micro/go-web v1.0.0
 	gopkg.in/fatih/pool.v2 v2.0.0 // indirect
@@ -13,6 +14,9 @@ require (
 )
 
 replace (
+	github.com/golang/lint v0.0.0-20190409202823-959b441ac422 => github.com/golang/lint v0.0.0-20190409202823-5614ed5bae6fb75893070bdc0996a68765fdd275
+	github.com/sourcegraph/go-diff => github.com/sourcegraph/go-diff v0.5.1
+	github.com/testcontainers/testcontainer-go => github.com/testcontainers/testcontainers-go v0.0.0-20181115231424-8e868ca12c0f
 	golang.org/x/build => github.com/golang/build v0.0.0-20190416225751-b5f252a0a7dd
 	golang.org/x/crypto => github.com/golang/crypto v0.0.0-20190411191339-88737f569e3a
 	golang.org/x/exp => github.com/golang/exp v0.0.0-20190413192849-7f338f571082
