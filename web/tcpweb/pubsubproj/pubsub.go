@@ -29,19 +29,24 @@ func (s *Subscribe) Run() {
 
 
 type Publish struct {
-	ctx context.Context
-	client client.Client
+	Ctx context.Context
+	Client client.Client
+	//Publishser micro.Publisher
 }
 
 func (p *Publish) NewPublisher(topic string) micro.Publisher{
 
-	return micro.NewPublisher(topic,p.client)
+	//p.Publishser = micro.NewPublisher(topic,p.Client)
+	return micro.NewPublisher(topic,p.Client)
 }
 
 
 func (p *Publish) PubEvent(publiser micro.Publisher,event interface{}) error{
+	//if p.Publishser == nil{
+	//	return errors.New("publisher is nil")
+	//}
 
-	if err := publiser.Publish(p.ctx,event);err != nil{
+	if err := publiser.Publish(p.Ctx,event);err != nil{
 		return err
 	}
 	return nil

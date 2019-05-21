@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c905d27d-c708-4693-a41f-6a7ad4ed57e6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/web/tcpweb/pubsubproj/pubsub.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/tcpweb/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/tcpweb/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/tcpweb/pubsubproj/pubsub.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/tcpweb/pubsubproj/pubsub.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/userweb/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/userweb/main.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/tcpweb/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="103" selection-start-line="103" selection-end-line="103" />
+            <state relative-caret-position="342">
+              <caret line="101" column="44" lean-forward="true" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -26,17 +27,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/userweb/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="38" column="12" lean-forward="true" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="12" />
+            <state relative-caret-position="176">
+              <caret line="46" column="10" selection-start-line="46" selection-start-column="10" selection-end-line="46" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/tcpweb/pubsubproj/pubsub.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+            <state relative-caret-position="289">
+              <caret line="33" column="30" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="30" />
               <folding>
                 <element signature="e#30#162#0" expanded="true" />
               </folding>
@@ -149,13 +150,13 @@
         <option value="$PROJECT_DIR$/webhandler.md" />
         <option value="$PROJECT_DIR$/web/ws.md" />
         <option value="$PROJECT_DIR$/web/tcpweb/tcpproto/pubsub.proto" />
-        <option value="$PROJECT_DIR$/web/userweb/main.go" />
         <option value="$PROJECT_DIR$/web/tcpweb/README.md" />
         <option value="$PROJECT_DIR$/web/userweb/README.md" />
         <option value="$PROJECT_DIR$/web/tcpweb/subproj/sub.go" />
         <option value="$PROJECT_DIR$/web/tcpweb/pubsubproj/sub.go" />
-        <option value="$PROJECT_DIR$/web/tcpweb/main.go" />
+        <option value="$PROJECT_DIR$/web/userweb/main.go" />
         <option value="$PROJECT_DIR$/web/tcpweb/pubsubproj/pubsub.go" />
+        <option value="$PROJECT_DIR$/web/tcpweb/main.go" />
       </list>
     </option>
   </component>
@@ -574,27 +575,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/tcpweb/main.go">
+    <entry file="file://$PROJECT_DIR$/web/tcpweb/pubsubproj/pubsub.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="103" selection-start-line="103" selection-end-line="103" />
+        <state relative-caret-position="289">
+          <caret line="33" column="30" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="30" />
+          <folding>
+            <element signature="e#30#162#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/userweb/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="38" column="12" lean-forward="true" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="12" />
+        <state relative-caret-position="176">
+          <caret line="46" column="10" selection-start-line="46" selection-start-column="10" selection-end-line="46" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/tcpweb/pubsubproj/pubsub.go">
+    <entry file="file://$PROJECT_DIR$/web/tcpweb/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
-          <folding>
-            <element signature="e#30#162#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="342">
+          <caret line="101" column="44" lean-forward="true" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
         </state>
       </provider>
     </entry>

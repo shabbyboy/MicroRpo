@@ -98,13 +98,13 @@ func (ws wsConnect) ReadLoop() error{
 			}
 
 			pubproj := pubsubproj.Publish{
-				context.Background(),
-				client.DefaultClient,
+				Ctx:context.Background(),
+				Client:client.DefaultClient,
 			}
 
-			publicsher := pubproj.NewPublisher(ev.Id)
+			publisher := pubproj.NewPublisher(ev.Id)
 
-			if errpub := pubproj.PubEvent(publicsher,ev); errpub != nil{
+			if errpub := pubproj.PubEvent(publisher,ev); errpub != nil{
 				log.Println(errpub)
 			}
 		}
