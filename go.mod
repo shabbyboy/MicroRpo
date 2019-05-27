@@ -4,9 +4,15 @@ go 1.12
 
 require (
 	github.com/golang/protobuf v1.3.1
+	github.com/google/uuid v1.1.1
+	github.com/gorilla/websocket v1.4.0
 	github.com/micro/go-config v1.1.0
+	github.com/micro/go-log v0.1.0
 	github.com/micro/go-micro v1.1.0
 	github.com/micro/go-web v1.0.0
+	github.com/microhq/stream-srv v0.0.0-20190523002444-eb9272fef3da // indirect
+	github.com/microhq/stream-web v0.0.0-20190522135607-b968809ba0be // indirect
+	google.golang.org/grpc v1.19.1
 	gopkg.in/fatih/pool.v2 v2.0.0 // indirect
 	k8s.io/utils v0.0.0-00010101000000-000000000000 // indirect
 )

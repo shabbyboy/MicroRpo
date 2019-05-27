@@ -6,6 +6,7 @@ package pubsubproj
 
 import (
 	"context"
+	"fmt"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/server"
@@ -18,9 +19,14 @@ type Subscribe struct {
 func (s *Subscribe) SubTopic(topic string,h interface{}) error{
 
 	if err := micro.RegisterSubscriber(topic,s.Server,h); err != nil{
+		fmt.Println(err)
 		return err
 	}
 	return nil
+}
+
+func (s *Subscribe) UnSubTopic(){
+	s.Server.Stop()
 }
 
 func (s *Subscribe) Run() {

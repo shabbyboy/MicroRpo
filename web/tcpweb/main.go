@@ -89,7 +89,7 @@ func (ws wsConnect) ReadLoop() error{
 			//ws.inchan <- msg
 			ev := &pubsub.Event{
 			}
-			//fmt.Println(string(msg))
+
 
 			seqjsonerr := json.Unmarshal(msg,ev)
 
@@ -103,7 +103,7 @@ func (ws wsConnect) ReadLoop() error{
 			}
 
 			publisher := pubproj.NewPublisher(ev.Id)
-
+			fmt.Println(string(ev.Id))
 			if errpub := pubproj.PubEvent(publisher,ev); errpub != nil{
 				log.Println(errpub)
 			}
@@ -167,6 +167,7 @@ func (tcp tcpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		subproj := pubsubproj.Subscribe{
 			server.DefaultServer,
 		}
+		fmt.Println(wsconn.wsId)
 		//该用包装后的注册服务
 		errregis := subproj.SubTopic(wsconn.wsId,tcpHand)
 		subproj.Run()
