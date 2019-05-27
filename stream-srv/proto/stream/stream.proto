@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package go.micro.srv.stream;
+
+service Stream {
+	rpc Create(CreateRequest) returns (CreateResponse) {}
+        rpc Publish(stream Message) returns (PubResponse) {}
+        rpc Subscribe(SubscribeRequest) returns (stream Message) {}
+}
+
+message CreateRequest {
+	string id = 1;
+}
+
+message CreateResponse {}
+
+message Message {
+        string id = 1;
+        bytes data = 2;
+}
+
+message PubResponse {}
+
+message SubscribeRequest {
+        string id = 1;
+}
