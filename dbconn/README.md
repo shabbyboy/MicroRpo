@@ -29,7 +29,7 @@
 user和default 是数据库名，实际使用过程中，通过数据库名找到配置信息，index 是具体的数据库索引，
 key按照一定的算法会被分配到index 属性中的某一个数据库
 
-example
+ example
 
 ```$xslt
 	hashRedis := DB.RedisHash{
@@ -38,6 +38,7 @@ example
 			DbName:"user",
 		},
 	}
+	err = hashRedis.HGET(2019,20,"zhangsan",&temp)
 ```
 
 FmtKey 是key的格式化字符串，dbname 对应配置文件中的数据库
