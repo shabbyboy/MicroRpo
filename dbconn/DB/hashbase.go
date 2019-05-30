@@ -2,16 +2,12 @@ package DB
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/garyburd/redigo/redis"
 )
 
 type RedisHash struct {
 	RedisDB
-}
-
-func (hd *RedisHash) HSET(gameId int,userId int,field string, data interface{}) (string,error){
-	num,err := hd.set("HSET",gameId,userId,field,data)
-	return num,err
 }
 
 func (hd *RedisHash) set(cmd string,gameId int,userId int,field string,data interface{}) (string,error){
@@ -46,23 +42,31 @@ func (hd *RedisHash) setMux(cmd string,gameId int,userId int,data map[string]int
 	if err != nil{
 		return "",err
 	}
-	num, err := redis.String(conn.Do(cmd,args))
+	num, err := redis.String(conn.Do(cmd,args...))
 	return num,err
 }
 
-func (hd *RedisHash) getMux(cmd string,gameId int,userId int,field []string,data []interface{}) error{
+func (hd *RedisHash) getMux(cmd string,gameId int,userId int,field []string,data ...interface{}) error{
 	key := hd.GetMainKey(gameId,userId)
 	conn, err := hd.NewConn(GetDBIndex(hd.DbName,userId))
 	defer conn.Close()
-
 	if err != nil{
 		return err
 	}
 
-	values, err := redis.Values(conn.Do(cmd,key,field))
+	args := redis.Args{key}
+	for _,v := range field{
+		args = append(args,v)
+	}
+	values, err := redis.ByteSlices(conn.Do(cmd,args...))
 
-	_, err = redis.Scan(values,data)
+	if len(values) != len(data){
+		return errors.New("field len not equal data len")
+	}
 
+	for k,v := range values{
+		json.Unmarshal(v,data[k])
+	}
 	return err
 }
 
@@ -102,6 +106,13 @@ func (hd *RedisHash) getByKeys(cmd string,gameId int,userId int)([]interface{},e
 	fieldstr,err := redis.Values(conn.Do(cmd,key))
 	return fieldstr,err
 }
+
+
+func (hd *RedisHash) HSET(gameId int,userId int,field string, data interface{}) (string,error){
+	num,err := hd.set("HSET",gameId,userId,field,data)
+	return num,err
+}
+
 
 func (hd *RedisHash) HSETNX(gameId int,userId int,field string,data interface{})(string, error){
 	num,err := hd.set("HSETNX",gameId,userId,field,data)
@@ -157,8 +168,10 @@ func (hd *RedisHash) HMSET(gameId int,userId int,data map[string]interface{})(st
 	return hd.setMux("HMSET",gameId,userId,data)
 }
 
-func (hd *RedisHash) HMGET(gameId int,userId int,field []string,data []interface{}) error{
-	return hd.getMux("HMGET",gameId,userId,field,data)
+func (hd *RedisHash) HMGET(gameId int,userId int,field []string,data ...interface{}) error{
+
+
+	return hd.getMux("HMGET",gameId,userId,field,data...)
 }
 
 func (hd *RedisHash) HKEYS(gameId int,userId int)([]interface{},error){
