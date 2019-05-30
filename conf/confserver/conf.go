@@ -1,6 +1,7 @@
 package confserver
 
 import (
+	"fmt"
 	"github.com/micro/go-config"
 	"log"
 )
@@ -16,6 +17,7 @@ func (c Conf)LoacConf() error{
 	err := config.LoadFile(c.Path)
 
 	if err != nil{
+		fmt.Println(err)
 		return err
 	}
 	return nil
@@ -25,6 +27,7 @@ func (c Conf)ConfExtract(cfg interface{}, keys ...string) error{
 	err := config.Get(keys...).Scan(cfg)
 
 	if err != nil{
+		fmt.Println(err)
 		return err
 	}
 	return nil
