@@ -12,7 +12,8 @@ type RedisHash struct {
 
 func (hd *RedisHash) set(cmd string,gameId int,userId int,field string,data interface{}) (string,error){
 	key := hd.GetMainKey(gameId,userId)
-	conn,err := hd.NewConn(GetDBIndex(hd.DbName,userId))
+		conn,err := hd.NewConn()
+	hd.SelectDB(conn,GetDBIndex(hd.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return "",err
@@ -27,7 +28,8 @@ func (hd *RedisHash) set(cmd string,gameId int,userId int,field string,data inte
 
 func (hd *RedisHash) setMux(cmd string,gameId int,userId int,data map[string]interface{}) (string,error){
 	key := hd.GetMainKey(gameId,userId)
-	conn,err := hd.NewConn(GetDBIndex(hd.DbName,userId))
+		conn,err := hd.NewConn()
+	hd.SelectDB(conn,GetDBIndex(hd.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return "",err
@@ -48,7 +50,8 @@ func (hd *RedisHash) setMux(cmd string,gameId int,userId int,data map[string]int
 
 func (hd *RedisHash) getMux(cmd string,gameId int,userId int,field []string,data ...interface{}) error{
 	key := hd.GetMainKey(gameId,userId)
-	conn, err := hd.NewConn(GetDBIndex(hd.DbName,userId))
+	conn,err := hd.NewConn()
+	hd.SelectDB(conn,GetDBIndex(hd.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return err
@@ -73,7 +76,8 @@ func (hd *RedisHash) getMux(cmd string,gameId int,userId int,field []string,data
 func (hd *RedisHash) getInt(cmd string,gameId int,userId int,field ...string)(int,error){
 	key := hd.GetMainKey(gameId,userId)
 
-	conn,err := hd.NewConn(GetDBIndex(hd.DbName,userId))
+		conn,err := hd.NewConn()
+	hd.SelectDB(conn,GetDBIndex(hd.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return 0,err
@@ -86,7 +90,8 @@ func (hd *RedisHash) getInt(cmd string,gameId int,userId int,field ...string)(in
 func (hd *RedisHash) getFloat(cmd string,gameId int,userId int,field ...string)(float64,error){
 	key := hd.GetMainKey(gameId,userId)
 
-	conn,err := hd.NewConn(GetDBIndex(hd.DbName,userId))
+		conn,err := hd.NewConn()
+	hd.SelectDB(conn,GetDBIndex(hd.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return 0,err
@@ -98,7 +103,8 @@ func (hd *RedisHash) getFloat(cmd string,gameId int,userId int,field ...string)(
 
 func (hd *RedisHash) getByKeys(cmd string,gameId int,userId int)([]interface{},error){
 	key := hd.GetMainKey(gameId,userId)
-	conn,err := hd.NewConn(GetDBIndex(hd.DbName,userId))
+		conn,err := hd.NewConn()
+	hd.SelectDB(conn,GetDBIndex(hd.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return nil,err
@@ -123,7 +129,8 @@ func (hd *RedisHash) HSETNX(gameId int,userId int,field string,data interface{})
 //gameid, userid field data地址
 func (hd *RedisHash) HGET(gameId int,userId int,field string,data interface{}) (error){
 	key := hd.GetMainKey(gameId,userId)
-	conn,err := hd.NewConn(GetDBIndex(hd.DbName,userId))
+		conn,err := hd.NewConn()
+	hd.SelectDB(conn,GetDBIndex(hd.DbName,userId))
 	//defer conn.Close()
 	if err != nil{
 		return err

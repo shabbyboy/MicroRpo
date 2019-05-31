@@ -69,7 +69,7 @@ func (rb *RedisDB) GetMainKey(gameId int, userId int) string{
 	return fmt.Sprintf(rb.FmtKey,gameId,userId)
 }
 
-func (rb *RedisDB) NewConn(dbindex int) (redis.Conn,error){
+func (rb *RedisDB) NewConn() (redis.Conn,error){
 
 	var (
 		dbconf DbConf
@@ -100,14 +100,20 @@ func (rb *RedisDB) NewConn(dbindex int) (redis.Conn,error){
 
 	conn := redispool.Get()
 
-	conn.Do("select",dbindex)
+	//conn.Do("select",dbindex)
 	return conn,nil
+}
+
+func (rb *RedisDB) SelectDB(conn redis.Conn,indexdb int){
+	conn.Do("select",indexdb)
 }
 
 func (rb *RedisDB) get(cmd string,gameId int,userId int)(int,error){
 	key := rb.GetMainKey(gameId,userId)
 
-	conn,err := rb.NewConn(GetDBIndex(rb.DbName,userId))
+	conn,err := rb.NewConn()
+	rb.SelectDB(conn,GetDBIndex(rb.DbName,userId))
+
 	defer conn.Close()
 	if err != nil{
 		return 0,err
@@ -118,7 +124,8 @@ func (rb *RedisDB) get(cmd string,gameId int,userId int)(int,error){
 }
 
 func (rb *RedisDB) randomKey(cmd string,dbindex int)(string,error){
-	conn,err := rb.NewConn(dbindex)
+	conn,err := rb.NewConn()
+	rb.SelectDB(conn,dbindex)
 	defer conn.Close()
 	if err != nil{
 		return "",err
@@ -141,7 +148,8 @@ func (rb *RedisDB) RANDOMKEY(dbindex int)(string,error){
 }
 
 func (rb *RedisDB) dbSize(cmd string,dbindex int) (int,error){
-	conn,err := rb.NewConn(dbindex)
+	conn,err := rb.NewConn()
+	rb.SelectDB(conn,dbindex)
 	defer conn.Close()
 	if err != nil{
 		return -1,err
@@ -157,8 +165,8 @@ func (rb *RedisDB) DBSIZE(dbindex int)(int,error){
 
 func (rb *RedisDB) expire(cmd string,gameId int,userId int,time int)(int,error){
 	key := rb.GetMainKey(gameId,userId)
-
-	conn,err := rb.NewConn(GetDBIndex(rb.DbName,userId))
+	conn,err := rb.NewConn()
+	rb.SelectDB(conn,GetDBIndex(rb.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return 0,err

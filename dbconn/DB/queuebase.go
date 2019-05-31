@@ -12,7 +12,8 @@ type RedisQueue struct {
 func (rq *RedisQueue) push(cmd string,gameId int,userId int,data ...interface{}) (int,error){
 	key := rq.GetMainKey(gameId,userId)
 
-	conn, err := rq.NewConn(GetDBIndex(rq.DbName,userId))
+			conn,err := rq.NewConn()
+	rq.SelectDB(conn,GetDBIndex(rq.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return 0,err
@@ -33,7 +34,8 @@ func (rq *RedisQueue) push(cmd string,gameId int,userId int,data ...interface{})
 func (rq *RedisQueue) pop(cmd string,gameId int,userId int,ret interface{}) error{
 	key := rq.GetMainKey(gameId,userId)
 
-	conn, err := rq.NewConn(GetDBIndex(rq.DbName,userId))
+			conn,err := rq.NewConn()
+	rq.SelectDB(conn,GetDBIndex(rq.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return err
@@ -49,7 +51,8 @@ func (rq *RedisQueue) pop(cmd string,gameId int,userId int,ret interface{}) erro
 func (rq *RedisQueue) lrem(cmd string,gameId int,userId int, count int,value interface{}) (int,error){
 	key := rq.GetMainKey(gameId,userId)
 
-	conn, err := rq.NewConn(GetDBIndex(rq.DbName,userId))
+			conn,err := rq.NewConn()
+	rq.SelectDB(conn,GetDBIndex(rq.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return 0,err
@@ -63,7 +66,8 @@ func (rq *RedisQueue) lrem(cmd string,gameId int,userId int, count int,value int
 func (rq *RedisQueue) byKeys(cmd string,gameId int,userId int) (int,error){
 	key := rq.GetMainKey(gameId,userId)
 
-	conn, err := rq.NewConn(GetDBIndex(rq.DbName,userId))
+			conn,err := rq.NewConn()
+	rq.SelectDB(conn,GetDBIndex(rq.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return 0,err
@@ -76,7 +80,8 @@ func (rq *RedisQueue) byKeys(cmd string,gameId int,userId int) (int,error){
 func (rq *RedisQueue) lindex(cmd string,gameId int,userId int,index int,data interface{}) error{
 	key := rq.GetMainKey(gameId,userId)
 
-	conn, err := rq.NewConn(GetDBIndex(rq.DbName,userId))
+			conn,err := rq.NewConn()
+	rq.SelectDB(conn,GetDBIndex(rq.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return err
@@ -92,7 +97,8 @@ func (rq *RedisQueue) lindex(cmd string,gameId int,userId int,index int,data int
 func (rq *RedisQueue) linsert(cmd string,gameId int,userId int,opr string,pos interface{},data interface{}) (int,error){
 	key := rq.GetMainKey(gameId,userId)
 
-	conn, err := rq.NewConn(GetDBIndex(rq.DbName,userId))
+			conn,err := rq.NewConn()
+	rq.SelectDB(conn,GetDBIndex(rq.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return -1,err
@@ -105,7 +111,8 @@ func (rq *RedisQueue) linsert(cmd string,gameId int,userId int,opr string,pos in
 func (rq *RedisQueue) lset(cmd string,gameId int,userId int,index int,data interface{}) error{
 	key := rq.GetMainKey(gameId,userId)
 
-	conn, err := rq.NewConn(GetDBIndex(rq.DbName,userId))
+			conn,err := rq.NewConn()
+	rq.SelectDB(conn,GetDBIndex(rq.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return err
@@ -120,7 +127,8 @@ func (rq *RedisQueue) lset(cmd string,gameId int,userId int,index int,data inter
 func (rq *RedisQueue) lrange(cmd string,gameId int,userId int,start int,end int) ([][]byte,error){
 	key := rq.GetMainKey(gameId,userId)
 
-	conn, err := rq.NewConn(GetDBIndex(rq.DbName,userId))
+			conn,err := rq.NewConn()
+	rq.SelectDB(conn,GetDBIndex(rq.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return nil,err
@@ -134,7 +142,8 @@ func (rq *RedisQueue) lrange(cmd string,gameId int,userId int,start int,end int)
 func (rq *RedisQueue) ltrim(cmd string,gameId int,userId int,start int,end int) (string,error){
 	key := rq.GetMainKey(gameId,userId)
 
-	conn, err := rq.NewConn(GetDBIndex(rq.DbName,userId))
+			conn,err := rq.NewConn()
+	rq.SelectDB(conn,GetDBIndex(rq.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return "",err

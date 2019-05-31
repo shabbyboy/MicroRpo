@@ -12,7 +12,8 @@ type RedisStr struct {
 func (rs *RedisStr) set(cmd string,gameId int,userId int,value string) (string,error){
 	key := rs.GetMainKey(gameId,userId)
 
-	conn,err := rs.NewConn(GetDBIndex(rs.DbName,userId))
+		conn,err := rs.NewConn()
+	rs.SelectDB(conn,GetDBIndex(rs.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		fmt.Println("连接错误",err)
@@ -27,7 +28,8 @@ func (rs *RedisStr) set(cmd string,gameId int,userId int,value string) (string,e
 func (rs *RedisStr) setInt(cmd string,gameId int,userId int,num int,value ...string) (int,error){
 	key := rs.GetMainKey(gameId,userId)
 
-	conn,err := rs.NewConn(GetDBIndex(rs.DbName,userId))
+		conn,err := rs.NewConn()
+	rs.SelectDB(conn,GetDBIndex(rs.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return 0,err
@@ -62,7 +64,8 @@ func (rs *RedisStr) PSETEX(gameId int,userId int,milSecond int,value string)(int
 func (rs *RedisStr) get(cmd string,gameId int,userId int) (string,error){
 	key := rs.GetMainKey(gameId,userId)
 
-	conn,err := rs.NewConn(GetDBIndex(rs.DbName,userId))
+		conn,err := rs.NewConn()
+	rs.SelectDB(conn,GetDBIndex(rs.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return "",err
@@ -76,7 +79,8 @@ func (rs *RedisStr) get(cmd string,gameId int,userId int) (string,error){
 func (rs *RedisStr) getset(cmd string,gameId int,userId int,data string) (string,error){
 	key := rs.GetMainKey(gameId,userId)
 
-	conn,err := rs.NewConn(GetDBIndex(rs.DbName,userId))
+		conn,err := rs.NewConn()
+	rs.SelectDB(conn,GetDBIndex(rs.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return "", err
@@ -91,7 +95,8 @@ func (rs *RedisStr) getset(cmd string,gameId int,userId int,data string) (string
 func (rs *RedisStr) getInt(cmd string,gameId int,userId int,data ...string)(int,error){
 	key := rs.GetMainKey(gameId,userId)
 
-	conn,err := rs.NewConn(GetDBIndex(rs.DbName,userId))
+	conn,err := rs.NewConn()
+	rs.SelectDB(conn,GetDBIndex(rs.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return 0,err
@@ -110,7 +115,8 @@ func (rs *RedisStr) getInt(cmd string,gameId int,userId int,data ...string)(int,
 func (rs *RedisStr) getRange(cmd string,gameId int,userId int,start ...int)(string,error){
 	key := rs.GetMainKey(gameId,userId)
 
-	conn,err := rs.NewConn(GetDBIndex(rs.DbName,userId))
+	conn,err := rs.NewConn()
+	rs.SelectDB(conn,GetDBIndex(rs.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return "",err
@@ -127,7 +133,8 @@ func (rs *RedisStr) getRange(cmd string,gameId int,userId int,start ...int)(stri
 func (rs *RedisStr) incrFloat(cmd string,gameId int,userId int,num ...float64)(float64,error){
 	key := rs.GetMainKey(gameId,userId)
 
-	conn,err := rs.NewConn(GetDBIndex(rs.DbName,userId))
+		conn,err := rs.NewConn()
+	rs.SelectDB(conn,GetDBIndex(rs.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return 0,err
@@ -143,8 +150,11 @@ func (rs *RedisStr) incrFloat(cmd string,gameId int,userId int,num ...float64)(f
 
 func (rs *RedisStr) mset(cmd string,gameId int,userId int,data map[string]interface{})(string,error){
 	key := rs.GetMainKey(gameId,userId)
-
-	conn,err := rs.NewConn(GetDBIndex(rs.DbName,userId))
+	
+	conn,err := rs.NewConn()
+	rs.SelectDB(conn,GetDBIndex(rs.DbName,userId))
+	
+	
 	defer conn.Close()
 	if err != nil{
 		return "",err
@@ -163,7 +173,8 @@ func (rs *RedisStr) mset(cmd string,gameId int,userId int,data map[string]interf
 func (rs *RedisStr) msetNx(cmd string,gameId int,userId int,data map[string]interface{})(int,error){
 	key := rs.GetMainKey(gameId,userId)
 
-	conn,err := rs.NewConn(GetDBIndex(rs.DbName,userId))
+		conn,err := rs.NewConn()
+	rs.SelectDB(conn,GetDBIndex(rs.DbName,userId))
 	defer conn.Close()
 	if err != nil{
 		return 0,err
