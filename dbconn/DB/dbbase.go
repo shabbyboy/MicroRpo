@@ -15,10 +15,7 @@ var (
 	)
 
 func init(){
-
-	DbConfig = confserver.Conf{
-		Path:"dbconn/dbconf/db.json",
-	}
+	DbConfig = confserver.DefaultConf("dbconn/dbconf/db.json")
 }
 
 type DbBase interface {
@@ -49,8 +46,6 @@ type RedisDB struct {
 func GetDBIndex(dbname string,userId int) int{
 	var conf DbConf
 
-	DbConfig.LoacConf()
-
 	DbConfig.ConfExtract(&conf,"database",dbname)
 
 	lenth := len(conf.Index)
@@ -78,7 +73,6 @@ func (rb *RedisDB) NewConn() (redis.Conn,error){
 
 	once.Do(func() {
 
-		DbConfig.LoacConf()
 		DbConfig.ConfExtract(&dbconf,"database",rb.DbName)
 		DbConfig.ConfExtract(&authPass,"database","auth")
 

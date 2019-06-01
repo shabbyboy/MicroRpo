@@ -130,8 +130,6 @@ func (ws wsConnect) WriteLoop() error{
 	return nil
 }
 
-
-
 func (tcp tcpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {

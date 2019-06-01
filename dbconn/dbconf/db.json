@@ -1,15 +1,15 @@
 {
   "database": {
-    "user": {
-      "host": "172.16.8.75:8003",
-      "type": "tcp",
-      "index": [7,8]
-    },
-    "default": {
-      "host": "172.16.8.75:8003",
-      "type": "tcp",
-      "index": [1,2]
-    },
+      "user": {
+        "host": "172.16.8.75:8003",
+        "type": "tcp",
+        "index": [7,8]
+      },
+      "default": {
+        "host": "172.16.8.75:8003",
+        "type": "tcp",
+        "index": [1,2]
+      },
     "auth": {
       "password": "tugame",
       "maxidle": 1,
