@@ -104,7 +104,7 @@ curl "http:ip:8080/user/login?name=zhangsan"
       
         2. 发送消息
            
-           利用websocket发送休息就可以了，但是格式有要求
+           利用websocket发送消息就可以了，但是格式有要求
            
             ```$xslt
              // Example message
