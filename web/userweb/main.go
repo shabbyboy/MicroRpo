@@ -22,7 +22,7 @@ type pub struct {
 
 
 }
-
+//event.id 必须是userid
 func (p *pub) Process(ctx context.Context,event *pubsub.Event) error{
 
 	//// 通过发布订阅，往长连接发送消息
@@ -31,7 +31,7 @@ func (p *pub) Process(ctx context.Context,event *pubsub.Event) error{
 		Client:client.DefaultClient,
 	}
 	fmt.Println(event.Id)
-	publisher := pubproj.NewPublisher("123")
+	publisher := pubproj.NewPublisher(event.Id)
 
 	if err := pubproj.PubEvent(publisher,event); err != nil{
 		fmt.Println("发布：",err)

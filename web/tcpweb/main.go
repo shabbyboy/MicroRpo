@@ -19,8 +19,6 @@ type tcpHandler struct {
 	//inchan chan[]byte
 }
 
-
-
 var(
 	upgrader = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
@@ -28,7 +26,6 @@ var(
 		},
 	}
 )
-
 
 type wsSub struct {
 	inchan chan[]byte
@@ -44,7 +41,6 @@ func (p *wsSub) Process(ctx context.Context,event *pubsub.Event) error{
 	return nil
 }
 
-
 type wsConnect struct {
 	//标识 websocket
 	wsId string
@@ -54,8 +50,9 @@ type wsConnect struct {
 	outchan chan []byte
 	//websocket连接
 	wsconn *websocket.Conn
-	//终止链路
 	stop chan error
+	//用于管理开启的goroutine
+	context context.Context
 }
 
 //发送心跳的逻辑
@@ -71,13 +68,14 @@ func (ws wsConnect) SendHeart(data []byte) error{
 					ws.stop<- hearterr
 					return
 				}
+			case <- ws.context.Done():
+				break
 			}
 		}
 	}()
 
 	return nil
 }
-
 
 func (ws wsConnect) ReadLoop() error{
 	go func() {
@@ -107,22 +105,31 @@ func (ws wsConnect) ReadLoop() error{
 			if errpub := pubproj.PubEvent(publisher,ev); errpub != nil{
 				log.Println(errpub)
 			}
+
+			select {
+			case <-ws.context.Done():
+				break
+			default:
+
+			}
 		}
 	}()
 	return nil
 }
 
-
-
 func (ws wsConnect) WriteLoop() error{
 
 	go func() {
-
 		for {
 			data := <- ws.outchan
 			if err := ws.wsconn.WriteMessage(websocket.TextMessage,data); err != nil{
 				log.Println(err)
 				ws.stop <- err
+			}
+			select {
+			case <-ws.context.Done():
+				break
+			default:
 			}
 		}
 	}()
@@ -142,19 +149,20 @@ func (tcp tcpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if err != nil{
 			return
 		}
-
+		ctx,quit := context.WithCancel(context.Background())
 		wsconn := wsConnect{
 			//这个连接id 暂时没想好怎么写，应该更具业务去判断，能够唯一标示客户端
 			wsId:userid,
 			inchan:make(chan []byte,2),
 			outchan:make(chan []byte,2),
 			wsconn:ws,
-			stop:make(chan error,2),
+			stop:make(chan error),
+			context:ctx,
 		}
 
 		//心跳逻辑
-		//date := time.Now()
-		//wsconn.SendHeart([]byte(date.Format("2006/01/02")+"heartbeat"))
+		date := time.Now()
+		wsconn.SendHeart([]byte(date.Format("2006/01/02")+"heartbeat"))
 
 		wsconn.ReadLoop()
 		//根据websocket连接id，注册一个发布订阅
@@ -165,12 +173,9 @@ func (tcp tcpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		subproj := pubsubproj.Subscribe{
 			server.DefaultServer,
 		}
-		fmt.Println(wsconn.wsId)
 		//该用包装后的注册服务
 		errregis := subproj.SubTopic(wsconn.wsId,tcpHand)
 		subproj.Run()
-		///errregis := micro.RegisterSubscriber(wsconn.wsId,server.DefaultServer,tcpHand)
-		//server.DefaultServer.Start()
 
 		if errregis != nil {
 			fmt.Println(errregis)
@@ -180,18 +185,22 @@ func (tcp tcpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			for {
 				result := <- tcpHand.inchan
 				wsconn.outchan <- result
+
+				select{
+				case <- wsconn.context.Done():
+					break
+				}
 			}
 		}()
 
 		//阻塞直到 websocket 关闭
 		<- wsconn.stop
+		quit()
 		wsconn.wsconn.Close()
 		//这里手动关下rpc服务把避免开启太多
 		server.DefaultServer.Stop()
 		//log.Fatal("wbsocket 连接关闭")
 	}
-
-
 }
 
 func main(){
@@ -205,9 +214,6 @@ func main(){
 		log.Fatal(err)
 	}
 	wsserver.Handle("/",new(tcpHandler))
-
-	//server.DefaultServer.Start()
-	//wsserver.Options().Service.Run()
 
 	if err := wsserver.Run(); err != nil{
 		log.Fatal(err)
