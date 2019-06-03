@@ -1,5 +1,10 @@
-## Micro 微服务框架学习总结
-* 总共写了两个东西，画了一个图和两遍博客总结
-* ![微服务架构图](https://github.com/shabbyboy/MicroRpo/blob/master/Micro%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg)
-* [micro如何实现插件化](https://blog.csdn.net/caca95/article/details/89492261)
-* [micro微服务架构梳理](https://blog.csdn.net/caca95/article/details/89709842)
+### 目录
+
+* 配置 模块：
+    1. [配置支持consul、etcd、静态文件作为配置中心](https://github.com/shabbyboy/MicroRpo/tree/master/conf)
+
+* redis数据库模块：
+    1. [对redgo 进行了封装，简化了redis的使用](https://github.com/shabbyboy/MicroRpo/tree/master/dbconn)
+    
+* 长连接和短连接模块
+    1. [利用websocket实现了长连接，短连接沿用了micro的web 处理模式](https://github.com/shabbyboy/MicroRpo/tree/master/web/userweb)
