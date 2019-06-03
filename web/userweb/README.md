@@ -49,7 +49,7 @@ if err := service.Run(); err != nil{
 
 >  micro api --api_namespace=microrpo.web --handler=web
 
-curl "http:ip:8080/user/login?name=zhangsan"
+>  curl "http:ip:8080/user/login?name=zhangsan"
 
 * 长连接
 
