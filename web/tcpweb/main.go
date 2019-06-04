@@ -19,7 +19,7 @@ type tcpHandler struct {
 	//inchan chan[]byte
 }
 
-var(
+var (
 	upgrader = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
 			return true
@@ -28,10 +28,10 @@ var(
 )
 
 type wsSub struct {
-	inchan chan[]byte
+	inchan chan []byte
 }
 
-func (p *wsSub) Process(ctx context.Context,event *pubsub.Event) error{
+func (p *wsSub) Process(ctx context.Context, event *pubsub.Event) error {
 	fmt.Println("订阅主题")
 	fmt.Println(event.Message)
 	if len(event.Message) > 0 {
@@ -50,25 +50,25 @@ type wsConnect struct {
 	outchan chan []byte
 	//websocket连接
 	wsconn *websocket.Conn
-	stop chan error
+	stop   chan error
 	//用于管理开启的goroutine
 	context context.Context
 }
 
 //发送心跳的逻辑
-func (ws wsConnect) SendHeart(data []byte) error{
+func (ws wsConnect) SendHeart(data []byte) error {
 	//心跳逻辑
 	go func() {
-		t := time.NewTicker(time.Second*1)
-		for{
-			select{
-			case <- t.C:
-				hearterr := ws.wsconn.WriteMessage(websocket.TextMessage ,data)
-				if hearterr != nil{
-					ws.stop<- hearterr
+		t := time.NewTicker(time.Second * 1)
+		for {
+			select {
+			case <-t.C:
+				hearterr := ws.wsconn.WriteMessage(websocket.TextMessage, data)
+				if hearterr != nil {
+					ws.stop <- hearterr
 					return
 				}
-			case <- ws.context.Done():
+			case <-ws.context.Done():
 				break
 			}
 		}
@@ -77,7 +77,7 @@ func (ws wsConnect) SendHeart(data []byte) error{
 	return nil
 }
 
-func (ws wsConnect) ReadLoop() error{
+func (ws wsConnect) ReadLoop() error {
 	go func() {
 		for {
 			_, msg, err := ws.wsconn.ReadMessage()
@@ -85,24 +85,22 @@ func (ws wsConnect) ReadLoop() error{
 				ws.stop <- err
 			}
 			//ws.inchan <- msg
-			ev := &pubsub.Event{
-			}
+			ev := &pubsub.Event{}
 
+			seqjsonerr := json.Unmarshal(msg, ev)
 
-			seqjsonerr := json.Unmarshal(msg,ev)
-
-			if seqjsonerr != nil{
+			if seqjsonerr != nil {
 				fmt.Println(seqjsonerr)
 			}
 
 			pubproj := pubsubproj.Publish{
-				Ctx:context.Background(),
-				Client:client.DefaultClient,
+				Ctx:    context.Background(),
+				Client: client.DefaultClient,
 			}
 
 			publisher := pubproj.NewPublisher(ev.Id)
 			fmt.Println(string(ev.Id))
-			if errpub := pubproj.PubEvent(publisher,ev); errpub != nil{
+			if errpub := pubproj.PubEvent(publisher, ev); errpub != nil {
 				log.Println(errpub)
 			}
 
@@ -117,12 +115,12 @@ func (ws wsConnect) ReadLoop() error{
 	return nil
 }
 
-func (ws wsConnect) WriteLoop() error{
+func (ws wsConnect) WriteLoop() error {
 
 	go func() {
 		for {
-			data := <- ws.outchan
-			if err := ws.wsconn.WriteMessage(websocket.TextMessage,data); err != nil{
+			data := <-ws.outchan
+			if err := ws.wsconn.WriteMessage(websocket.TextMessage, data); err != nil {
 				log.Println(err)
 				ws.stop <- err
 			}
@@ -144,37 +142,37 @@ func (tcp tcpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		userid := r.Form.Get("userid")
 
-		ws,err := upgrader.Upgrade(w,r,nil)
+		ws, err := upgrader.Upgrade(w, r, nil)
 
-		if err != nil{
+		if err != nil {
 			return
 		}
-		ctx,quit := context.WithCancel(context.Background())
+		ctx, quit := context.WithCancel(context.Background())
 		wsconn := wsConnect{
 			//这个连接id 暂时没想好怎么写，应该更具业务去判断，能够唯一标示客户端
-			wsId:userid,
-			inchan:make(chan []byte,2),
-			outchan:make(chan []byte,2),
-			wsconn:ws,
-			stop:make(chan error),
-			context:ctx,
+			wsId:    userid,
+			inchan:  make(chan []byte, 2),
+			outchan: make(chan []byte, 2),
+			wsconn:  ws,
+			stop:    make(chan error),
+			context: ctx,
 		}
 
 		//心跳逻辑
 		date := time.Now()
-		wsconn.SendHeart([]byte(date.Format("2006/01/02")+"heartbeat"))
+		wsconn.SendHeart([]byte(date.Format("2006/01/02") + "heartbeat"))
 
 		wsconn.ReadLoop()
 		//根据websocket连接id，注册一个发布订阅
 		wsconn.WriteLoop()
-		tcpHand := &wsSub{inchan:make(chan []byte,2)}
+		tcpHand := &wsSub{inchan: make(chan []byte, 2)}
 		//server.Init()
 
 		subproj := pubsubproj.Subscribe{
-			server.DefaultServer,
+			Server: server.DefaultServer,
 		}
 		//该用包装后的注册服务
-		errregis := subproj.SubTopic(wsconn.wsId,tcpHand)
+		errregis := subproj.SubTopic(wsconn.wsId, tcpHand)
 		subproj.Run()
 
 		if errregis != nil {
@@ -183,18 +181,18 @@ func (tcp tcpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		go func() {
 			for {
-				result := <- tcpHand.inchan
+				result := <-tcpHand.inchan
 				wsconn.outchan <- result
 
-				select{
-				case <- wsconn.context.Done():
+				select {
+				case <-wsconn.context.Done():
 					break
 				}
 			}
 		}()
 
 		//阻塞直到 websocket 关闭
-		<- wsconn.stop
+		<-wsconn.stop
 		quit()
 		wsconn.wsconn.Close()
 		//这里手动关下rpc服务把避免开启太多
@@ -203,19 +201,19 @@ func (tcp tcpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main(){
+func main() {
 
 	wsserver := web.NewService(
 		web.Name("microrpo.web.wstcp"),
 		//web.Address(":8088"),
 	)
 
-	if err := wsserver.Init(); err != nil{
+	if err := wsserver.Init(); err != nil {
 		log.Fatal(err)
 	}
-	wsserver.Handle("/",new(tcpHandler))
+	wsserver.Handle("/", new(tcpHandler))
 
-	if err := wsserver.Run(); err != nil{
+	if err := wsserver.Run(); err != nil {
 		log.Fatal(err)
 	}
 

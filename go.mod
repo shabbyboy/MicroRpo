@@ -3,6 +3,7 @@ module MicroRpo
 go 1.12
 
 require (
+	github.com/Sirupsen/logrus v1.0.6
 	github.com/garyburd/redigo v1.6.0
 	github.com/golang/protobuf v1.3.1
 	github.com/google/uuid v1.1.1
@@ -12,6 +13,7 @@ require (
 	github.com/micro/go-micro v1.1.0
 	github.com/micro/go-web v1.0.0
 	github.com/microhq/stream-srv v0.0.0-20190523002444-eb9272fef3da
+	github.com/sirupsen/logrus v1.4.2
 	go.etcd.io/bbolt v1.3.2 // indirect
 	google.golang.org/grpc v1.19.1
 	gopkg.in/fatih/pool.v2 v2.0.0 // indirect
