@@ -10,7 +10,7 @@
     1. [利用websocket实现了长连接，短连接沿用了micro的web 处理模式](https://github.com/shabbyboy/MicroRpo/tree/master/web/userweb)
     
 * 日志模块
-    1. [日志模块用的是logrus框架，要问原因，✨最多]()
+    1. [日志模块用的是logrus框架，要问原因，✨最多](https://github.com/shabbyboy/MicroRpo/tree/master/rpolog)
     
     
 项目的bin目录用于存放执行文件，格式为：bin/包名/执行文件 例如：bin/userweb/user

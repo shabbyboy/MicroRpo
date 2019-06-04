@@ -2,3 +2,7 @@
 #stream-web/
 temp2/
 MicroRpo
+*.text
+.idea/:
+bin/
+
