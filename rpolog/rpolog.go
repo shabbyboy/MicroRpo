@@ -107,3 +107,11 @@ func Fatal(args ...interface{}) {
 	logbase()
 	log.Fatal(args...)
 }
+
+func WithFields(fields map[string]interface{}){
+	log.WithFields(fields)
+}
+
+func WithField(key string,value interface{}){
+	log.WithField(key,value)
+}
