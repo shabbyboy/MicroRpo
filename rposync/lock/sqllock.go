@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"sync"
+	"time"
 )
 
 /*
@@ -112,7 +113,15 @@ func (sl *SQLLock) AquireLock(){
 	if lock == true {
 		return
 	}else {
-
+		time.AfterFunc(time.Duration(time.Second*defaultstealSecond), func() {
+			lock,err = sl.sQLLock(true)
+			if err != nil {
+				panic(err)
+			}
+			if lock == true {
+				return
+			}
+		})
 		for {
 			lock, err = sl.sQLLock(false)
 			if err != nil {
