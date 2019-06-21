@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"regexp"
 )
 
 func SubAll(channel string, message string) {
@@ -14,5 +14,6 @@ func SubOne(channel string, message string) {
 }
 
 func main() {
-	fmt.Println(os.Getwd())
+	match,_ := regexp.MatchString("aa.*.bb","aa.cc.bb")
+	fmt.Println(match)
 }

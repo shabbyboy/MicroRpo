@@ -81,6 +81,7 @@ type Subscribers interface {
 	Add(Subscriber) error
 	// Remove removes subscriber
 	Remove(uuid.UUID) error
+
 	// Get returns subscriber
 	Get(uuid.UUID) Subscriber
 	// AsList returns list of subscribers

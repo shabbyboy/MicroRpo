@@ -18,6 +18,7 @@ func init() {
 
 	exdir, _ := os.Getwd()
 	logdir := filepath.Base(exdir)
+	//换成自己的实际路径
 	fullpath := "/Users/tugame/newgodemo/microrpo/MicroRpo/runlogs"
 	path = filepath.Join(fullpath, logdir)
 	//权限需要是0777 否则权限不够
