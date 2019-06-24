@@ -24,7 +24,7 @@ var conn redis.Conn
 const (
 	lockedKey string = "lockedkey"
 	redishost string = "172.16.8.75:8004"
-	defaultstealSecond = 6
+	defaultstealSecond = 2
 	lockcount = 3
 	sqlDefaultLockUpdateInterval = time.Second
 )
@@ -32,7 +32,7 @@ type RedisLock struct{
 	sync.RWMutex
 	goid uint64
 }
-
+//获取goroutine id
 func getGID() uint64 {
 	b := make([]byte, 64)
 	b = b[:runtime.Stack(b, false)]
@@ -83,7 +83,7 @@ func (rl *RedisLock) RequireLock(){
 	if lock == true {
 		return
 	} else {
-		time.AfterFunc(time.Duration(time.Second*defaultstealSecond), func() {
+		t := time.AfterFunc(time.Duration(time.Second*defaultstealSecond), func() {
 			//一直无法获得锁的情况，判断为死锁
 			conn.Do("DEL",lockedKey)
 			panic(errors.New("dead lock"))
@@ -96,6 +96,8 @@ func (rl *RedisLock) RequireLock(){
 				panic(err)
 			}
 			if lock == true {
+				//如果获取到了锁，则停止计时器
+				t.Stop()
 				return
 			}
 		}

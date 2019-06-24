@@ -9,13 +9,14 @@ import (
 
 var mutex = sync.Mutex{}
 var redislock =lock.RedisLock{}
+var sqllock = lock.SQLLock{}
 func testRpo(key int,val *string){
 	//lock.RpoLock.RequireLock("tlp",val)
 	//
 	//defer lock.RpoLock.ReleaseLock("tlp",val)
 
-	redislock.RequireLock()
-	defer redislock.ReleaseLock()
+	sqllock.AquireLock()
+	defer sqllock.ReleaseLock()
 
 	//mutex.Lock()
 	//defer mutex.Unlock()
@@ -37,13 +38,6 @@ func main(){
 			wg.Done()
 		}(i)
 	}
-	go func() {
-		for {
-
-			time.Sleep(time.Second*20)
-			fmt.Println("print time")
-		}
-	}()
 	wg.Wait()
 	elapsed := time.Since(t1)
 	fmt.Println("time duration:",elapsed)
