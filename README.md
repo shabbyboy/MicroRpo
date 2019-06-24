@@ -12,7 +12,9 @@
 * 日志模块
     1. [日志模块用的是logrus框架，要问原因，✨最多](https://github.com/shabbyboy/MicroRpo/tree/master/rpolog)
     
-    
+* sync 模块
+    1. [同步模块，基于redis和mysql实现了两个分布式锁，以及进程锁](https://github.com/shabbyboy/MicroRpo/tree/master/rposync)
+     
 * 项目的bin目录用于存放执行文件
     
     1. 格式为：bin/包名/执行文件 
