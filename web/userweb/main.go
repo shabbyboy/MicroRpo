@@ -1,7 +1,7 @@
 package main
 
 /*
-利用goweb 模块弄了一个web服务
+此main 函数 主要是开发时 测试用，并无其他用处，可以删除
  */
 
 import (

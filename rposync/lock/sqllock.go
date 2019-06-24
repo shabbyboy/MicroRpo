@@ -72,7 +72,7 @@ func (sl *SQLLock) sQLLock(steal bool) (bool,error){
 	}
 
 	id := getGID()
-
+	//悲观锁 模式
 	row := tx.QueryRow(sqlStmts[sqlDBLockSelect])
 	err = row.Scan(&lockId,&tick)
 	if err != nil && err != sql.ErrNoRows{

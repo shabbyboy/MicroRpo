@@ -8,7 +8,7 @@ import (
 	"time"
 )
 /*
-写个hello world
+此main 函数 主要是开发时 测试用，并无其他用处，可以删除
  */
 
 type SayHello struct {

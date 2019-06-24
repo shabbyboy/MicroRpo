@@ -1,5 +1,9 @@
 package main
 
+/*
+此main 函数 主要是开发时 测试用，并无其他用处，可以删除
+ */
+
 import (
 	"MicroRpo/rposync/lock"
 	"fmt"
