@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/Sirupsen/logrus v1.0.6
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/garyburd/redigo v1.6.0
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/golang/protobuf v1.3.1

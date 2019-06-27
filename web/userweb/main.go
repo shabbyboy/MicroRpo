@@ -44,11 +44,14 @@ func main(){
 	service := web.NewService(
 		web.Name("microrpo.web.user"),
 	)
+
 	//组册订阅，获取长连接的消息
 
 	if err := service.Init(); err != nil{
 		log.Fatal(err)
 	}
+
+
 
 	subproj := pubsubproj.Subscribe{
 		Server:server.DefaultServer,
@@ -68,6 +71,7 @@ func main(){
 	service.HandleFunc("/user/login", func(writer http.ResponseWriter, request *http.Request) {
 		if request.Method == "GET"{
 			request.ParseForm()
+
 			name := request.Form.Get("name")
 			if len(name) == 0{
 				name = "world"

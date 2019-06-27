@@ -60,8 +60,8 @@ func GetDBIndex(dbname string,userId int) int{
 
 
 // 自己定义的形式和gameId以及userid
-func (rb *RedisDB) GetMainKey(gameId int, userId int) string{
-	return fmt.Sprintf(rb.FmtKey,gameId,userId)
+func (rb *RedisDB) GetMainKey(key ...interface{}) string{
+	return fmt.Sprintf(rb.FmtKey,key...)
 }
 
 func (rb *RedisDB) NewConn() (redis.Conn,error){
