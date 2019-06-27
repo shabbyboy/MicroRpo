@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Stream Web</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/stream.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        Stream Web
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+		  <ul class="list-inline" id="control">
+		    <li><a href="#" id="start">Start</a></li>
+		    <li><a href="#" id="stop">Stop</a></li>
+		    <!--<li><a href="#" id="flip">Flip</a></li>-->
+		  </ul>
+		  <p id="share"></p>
+		  <div id="video-container">
+		    <video id="camera-stream" width="500" autoplay></video>
+		  </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="message"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+ 	<script src="assets/stream.js"></script>
+    </body>
+</html>
