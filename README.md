@@ -7,7 +7,7 @@
     1. [对redgo 进行了封装，简化了redis的使用](https://github.com/shabbyboy/MicroRpo/tree/master/dbconn)
     
 * 长连接和短连接模块
-    1. [web包，利用websocket实现了长连接，短连接沿用了micro的web 处理模式](https://github.com/shabbyboy/MicroRpo/tree/master/web/userweb)
+    1. [web包，利用websocket、发布订阅实现了tcp服务，短连接沿用了micro的web 处理模式](https://github.com/shabbyboy/MicroRpo/tree/master/web/userweb)
     2. [stream包，tcp 服务新增了个回调的模式，不再用发布订阅了](https://github.com/shabbyboy/MicroRpo/tree/master/stream)
         
 * 日志模块
