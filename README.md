@@ -11,6 +11,7 @@
     
 * 日志模块
     1. [日志模块用的是logrus框架，要问原因，✨最多](https://github.com/shabbyboy/MicroRpo/tree/master/rpolog)
+    2. [tcp 服务新增了个回调的模式，不再用发布订阅了](https://github.com/shabbyboy/MicroRpo/tree/mrpologaster/)
     
 * sync 模块
     1. [同步模块，基于redis和mysql实现了两个分布式锁，以及进程锁](https://github.com/shabbyboy/MicroRpo/tree/master/rposync)
