@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/micro/go-log"
 	pb "MicroRpo/stream/stream-srv/proto/stream"
 	"MicroRpo/stream/stream-srv/sub"
+	"github.com/micro/go-log"
+	stream_plugins "MicroRpo/stream/stream-srv/plugins"
 )
 
 // Mux allows to multiplex streams to their subscribers
@@ -16,6 +17,7 @@ type Mux struct {
 	// wg keep strack of Mux goroutines
 	wg *sync.WaitGroup
 	sync.Mutex
+	CallMap map[string]stream_plugins.Plugins
 }
 
 // New creates new Mux and returns it
@@ -25,7 +27,35 @@ func New() (*Mux, error) {
 	return &Mux{
 		m:  m,
 		wg: new(sync.WaitGroup),
+		CallMap: map[string]stream_plugins.Plugins{},
 	}, nil
+}
+
+//在mux 里添加回调注册逻辑
+func (m *Mux) RegisterPlugin(cmd,action string,handler stream_plugins.Plugins) {
+
+	m.Lock()
+	defer m.Unlock()
+	_, ok := m.CallMap[cmd]
+
+	if ok {
+		return
+	}else {
+		m.CallMap[cmd] = handler
+	}
+}
+
+func (m *Mux) DisRegisterPlugin(cmd,action string) {
+	m.Lock()
+	defer m.Unlock()
+
+	_, ok := m.CallMap[cmd]
+
+	if ok {
+		delete(m.CallMap,cmd)
+	} else {
+		return
+	}
 }
 
 // AddStream adds new stream to Mux with given id and size of its buffer

@@ -1,11 +1,12 @@
 package main
 
 import (
+	"MicroRpo/stream/stream-srv/handler"
+	"MicroRpo/stream/stream-srv/plugins"
 	"github.com/micro/go-log"
 	"github.com/micro/go-micro"
-	"MicroRpo/stream/stream-srv/handler"
 
-	pb "MicroRpo/stream-srv/proto/stream"
+	pb "MicroRpo/stream/stream-srv/proto/stream"
 )
 
 func main() {
@@ -22,6 +23,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	h.Wrapper("abc","",plugins.HandlerHello)
 
 	// Register Handler
 	pb.RegisterStreamHandler(service.Server(), h)

@@ -33,18 +33,8 @@ func main() {
 	handler.Client = proto.NewStreamService("go.micro.srv.stream", client)
 
 
-
-	// register html handler
-	service.Handle("/stream/",http.StripPrefix("/stream/",
-		http.FileServer(http.Dir("./stream-web/html"))))
-	service.HandleFunc("/stream/user/", func(writer http.ResponseWriter, request *http.Request) {
-		fmt.Println(os.Getwd())
-		writer.Write([]byte("hello world"))
-		return
-	})
-
 	// register call handler
-	service.HandleFunc("/stream/video", handler.StreamVideo)
+	service.HandleFunc("/stream/video", handler.StreamApi)
 
 	// initialise service
 	if err := service.Init(); err != nil {

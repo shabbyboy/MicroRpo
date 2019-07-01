@@ -47,7 +47,7 @@ if err := service.Run(); err != nil{
 
 >  go run ./main.go
 
->  micro api --api_namespace=microrpo.web --handler=web
+>  micro --api_namespace=microrpo.web api --handler=web
 
 >  curl "http:ip:8080/user/login?name=zhangsan"
 

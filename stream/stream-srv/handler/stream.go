@@ -1,24 +1,51 @@
 package handler
 
 import (
+	"MicroRpo/stream/stream-srv/plugins"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"sync"
 
 	"github.com/micro/go-log"
 
-	"MicroRpo/stream-srv/mux"
+	"MicroRpo/stream/stream-srv/mux"
 	pb "MicroRpo/stream/stream-srv/proto/stream"
 	"MicroRpo/stream/stream-srv/sub"
 )
 
+/*
+data：{"cmd":
+		"action":
+		"gameId":
+		"userId":
+		"data":}
+ */
+
+type SendType int
+const(
+	SendClient SendType = 0 // 0 表示来自前端的信息
+	SendServer SendType = 1 // 1 表示来自后端的信息
+)
+
+
+type Data struct {
+	Cmd string `json:"cmd"`
+	Typ SendType `json:"typ"`
+	Action string `json:"action"`
+	MsgPack map[string]interface{} `json:"msgpack"`
+}
+
 // Stream is a data stream
 type Stream struct {
+
+
 	// Mux maps stream ids to subscribers to allow stream multiplexing
 	Mux *mux.Mux
 	// done notifies Stream server to stop
 	done chan struct{}
+
 }
 
 func NewStream() (*Stream, error) {
@@ -33,6 +60,10 @@ func NewStream() (*Stream, error) {
 		Mux:  mux,
 		done: done,
 	}, nil
+}
+
+func (s *Stream) Wrapper(cmd,action string,plugins plugins.Plugins){
+	s.Mux.RegisterPlugin(cmd,action,plugins)
 }
 
 // Create creates new data stream.
@@ -78,9 +109,27 @@ func (s *Stream) Publish(ctx context.Context, stream pb.Stream_PublishStream) er
 		log.Logf("Received msg on stream: %s", id)
 
 		wg.Add(1)
+		//回调执行函数
 		go func(msg *pb.Message) {
 			defer wg.Done()
-			s.Mux.Publish(msg)
+			data := Data{}
+			if err := json.Unmarshal(msg.Data,&data); err != nil {
+				return
+			}
+
+			switch data.Typ {
+			case SendServer:
+				plugin, ok := s.Mux.CallMap[data.Cmd]
+
+				if ok {
+					plugin(msg.Id,msg)
+				}else {
+					return
+				}
+			case SendClient:
+				s.Mux.Publish(msg)
+			}
+
 		}(msg)
 	}
 

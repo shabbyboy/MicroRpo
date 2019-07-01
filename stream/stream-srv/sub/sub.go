@@ -166,6 +166,8 @@ type dispatcher struct {
 	id string
 	// in receives messages from publisher
 	in chan *pb.Message
+	// out receives message from subscriber
+	out chan *pb.Message
 	// done is a stop notification channel
 	done chan struct{}
 	// s is a map of stream subscribers
