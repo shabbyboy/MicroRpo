@@ -7,14 +7,18 @@
     1. [对redgo 进行了封装，简化了redis的使用](https://github.com/shabbyboy/MicroRpo/tree/master/dbconn)
     
 * 长连接和短连接模块
-    1. [利用websocket实现了长连接，短连接沿用了micro的web 处理模式](https://github.com/shabbyboy/MicroRpo/tree/master/web/userweb)
-    
+    1. [web包，利用websocket实现了长连接，短连接沿用了micro的web 处理模式](https://github.com/shabbyboy/MicroRpo/tree/master/web/userweb)
+    2. [stream包，tcp 服务新增了个回调的模式，不再用发布订阅了](https://github.com/shabbyboy/MicroRpo/tree/master/stream)
+        
 * 日志模块
     1. [日志模块用的是logrus框架，要问原因，✨最多](https://github.com/shabbyboy/MicroRpo/tree/master/rpolog)
-    2. [tcp 服务新增了个回调的模式，不再用发布订阅了](https://github.com/shabbyboy/MicroRpo/tree/mrpologaster/)
     
 * sync 模块
     1. [同步模块，基于redis和mysql实现了两个分布式锁，以及进程锁](https://github.com/shabbyboy/MicroRpo/tree/master/rposync)
+    
+*  common 模块
+    1. 加了个token 生成和解析的包
+    
      
 * 项目的bin目录用于存放执行文件
     
