@@ -1,4 +1,4 @@
-### tcp 服务
+### micro srv服务
 
 传输数据格式：
 
@@ -52,4 +52,4 @@ func SendToClient(msg pb.Message){
 }
 ```
 
-[源码地址](https://github.com/microhq/stream-srv)
+[原srv代码地址](https://github.com/microhq/stream-srv)
