@@ -39,4 +39,3 @@
 * runlogs目录是日志输出目录，
     1. 格式：runlogs/包名/日志文件 例如：runlogs/userweb/web23967.log.2019-06-03
     
-![RUNOOB 图标](https://github.com/shabbyboy/MicroRpo/blob/master/Micro%20%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg)
